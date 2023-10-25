@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 setup(
     name = 'pypatcher',
     packages = ['pypatcher'],
-    version = '0.5',
+    version = '0.6',
     license='GPL-3.0',
     description = 'Utility module for handling incremental git patches',
     author = 'David Angulo',

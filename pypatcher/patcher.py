@@ -38,11 +38,11 @@ class Patcher():
         # Unstash WIP changes
         self.__repo.git.stash('pop')
 
-    def apply_patches(self, patches_dir: Path, ignore_detach: bool = False, no_commit: bool = False):
+    def apply_patches(self, patches_dir: Path, is_prod: bool = False):
         self.__validate_patches_dir(patches_dir)
         patches_commit_message = self.__get_commit_message_for_patches(patches_dir)
 
-        if self.__repo.head.is_detached and not ignore_detach:
+        if self.__repo.head.is_detached and not is_prod:
             current_commit = self.__repo.head.commit
 
             if current_commit.message.strip() == patches_commit_message:
@@ -70,7 +70,7 @@ class Patcher():
         for patch in patches:
             self.__repo.git.apply(patch)
 
-        if not no_commit:
+        if not is_prod:
             self.__repo.git.add('.')
             self.__repo.git.commit('-m', patches_commit_message, author='pypatcher <pypatcher@pypatcher.com>')
 
