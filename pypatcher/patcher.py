@@ -49,7 +49,13 @@ class Patcher():
                 raise AlreadyPatchedError()
 
             # delete origin HEAD
-            self.__repo.git.remote('set-head', 'origin', '-d')
+            remote_name = re.match(r'^.+$', self.__repo.git.remote(), flags=re.MULTILINE)
+
+            if not remote_name:
+                raise OriginBranchDetectionError()
+
+            remote_name = remote_name[0].strip()
+            self.__repo.git.remote('set-head', remote_name, '-d')
             origin_branch_match = re.match(r'^[^\/]*\/([^\ ]+)', self.__repo.git.branch('--remote', '--no-abbrev'))
             origin_branch = origin_branch_match.groups()[0] if origin_branch_match else None
 
