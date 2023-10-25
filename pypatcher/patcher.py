@@ -38,11 +38,11 @@ class Patcher():
         # Unstash WIP changes
         self.__repo.git.stash('pop')
 
-    def apply_patches(self, patches_dir: Path):
+    def apply_patches(self, patches_dir: Path, ignore_detach: bool = False):
         self.__validate_patches_dir(patches_dir)
         patches_commit_message = self.__get_commit_message_for_patches(patches_dir)
 
-        if (self.__repo.head.is_detached):
+        if self.__repo.head.is_detached and not ignore_detach:
             current_commit = self.__repo.head.commit
 
             if current_commit.message.strip() == patches_commit_message:
