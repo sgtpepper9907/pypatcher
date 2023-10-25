@@ -38,7 +38,7 @@ class Patcher():
         # Unstash WIP changes
         self.__repo.git.stash('pop')
 
-    def apply_patches(self, patches_dir: Path, ignore_detach: bool = False):
+    def apply_patches(self, patches_dir: Path, ignore_detach: bool = False, no_commit: bool = False):
         self.__validate_patches_dir(patches_dir)
         patches_commit_message = self.__get_commit_message_for_patches(patches_dir)
 
@@ -70,8 +70,9 @@ class Patcher():
         for patch in patches:
             self.__repo.git.apply(patch)
 
-        self.__repo.git.add('.')
-        self.__repo.git.commit('-m', patches_commit_message, author='pypatcher <pypatcher@pypatcher.com>')
+        if not no_commit:
+            self.__repo.git.add('.')
+            self.__repo.git.commit('-m', patches_commit_message, author='pypatcher <pypatcher@pypatcher.com>')
 
     def __validate_patches_dir(self, patches_dir: Path) -> None:
         if not patches_dir.exists() or not patches_dir.is_dir():
