@@ -68,7 +68,7 @@ class Patcher():
 
         patches = natsorted([p.absolute().as_posix() for p in patches_dir.glob('*.patch')])
         for patch in patches:
-            self.__repo.git.apply(patch)
+            self.__repo.git.apply(patch, '--ignore-space-change', '--ignore-whitespace')
 
         if not is_prod:
             self.__repo.git.add('.')
