@@ -11,11 +11,19 @@ class Patcher():
     def __init__(self, repo_path: Path) -> None:
         self.__repo = Repo(repo_path)
 
-    def new_patch(self, message: str, patches_dir: Path, only_staging_area: bool = True) -> None:
+    def new_patch(
+        self, message: str,
+        patches_dir: Path,
+        only_staging_area: bool = True,
+        ignore_space_changes:bool = False
+    ) -> None:
         self.__validate_patches_dir(patches_dir)
         timestamp = datetime.datetime.utcnow().strftime('%Y_%m_%dT%H%M%S')
 
-        diff = self.__repo.git.diff('--staged' if only_staging_area else '', '--ignore-all-space')
+        diff = self.__repo.git.diff(
+            '--staged' if only_staging_area else '',
+            '--ignore-all-space' if ignore_space_changes else ''
+        )
 
         if not diff:
             raise NothingToPatchError()

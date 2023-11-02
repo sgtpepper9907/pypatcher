@@ -10,12 +10,13 @@ def cli():
 @click.argument('patch_repo_src', type=click.Path(exists=True))
 @click.argument('patch_destination', type=click.Path(exists=True))
 @click.argument('message')
-def new_patch(patch_repo_src, patch_destination, message):
+@click.option('--ignore-whitespace', is_flag=True)
+def new_patch(patch_repo_src, patch_destination, message, ignore_whitespace):
     patch_repo_src = Path(patch_repo_src)
     patch_destination = Path(patch_destination)
 
     patcher = Patcher(patch_repo_src)
-    patcher.new_patch(message, patches_dir=patch_destination)
+    patcher.new_patch(message, patches_dir=patch_destination, ignore_space_changes=ignore_whitespace)
 
 @click.command()
 @click.argument('target_repo_path', type=click.Path(exists=True))
