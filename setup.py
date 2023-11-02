@@ -1,7 +1,4 @@
-from distutils.core import setup
-
-with open('requirements.txt') as f:
-    install_requires = f.read().strip().split('\n')
+from setuptools import setup
 
 setup(
     name = 'pypatcher',
@@ -12,7 +9,13 @@ setup(
     author = 'David Angulo',
     author_email = 'david.angulo.arias@gmail.com',
     url = 'https://github.com/sgtpepper9907/pypatcher',
-    download_url = 'https://github.com/sgtpepper9907/pypatcher/archive/refs/tags/v0.1.tar.gz',
     keywords = ['git', 'patches', 'incremental'],
-    install_requires=install_requires
+    install_requires=[
+        'checksumdir==1.2.0',
+        'click==8.1.7',
+        'gitdb==4.0.10',
+        'GitPython==3.1.40',
+        'natsort==8.4.0',
+        'smmap==5.0.1',
+    ],
 )
