@@ -15,7 +15,7 @@ class Patcher():
         self.__validate_patches_dir(patches_dir)
         timestamp = datetime.datetime.utcnow().strftime('%Y_%m_%dT%H%M%S')
 
-        diff = self.__repo.git.diff('--staged' if only_staging_area else '')
+        diff = self.__repo.git.diff('--staged' if only_staging_area else '', '--ignore-all-space')
 
         if not diff:
             raise NothingToPatchError()
