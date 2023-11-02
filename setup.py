@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name = 'pypatcher',
     packages = ['pypatcher'],
-    version = '0.10',
+    version = '0.11',
     license='GPL-3.0',
     description = 'Utility module for handling incremental git patches',
     author = 'David Angulo',

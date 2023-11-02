@@ -20,10 +20,11 @@ class Patcher():
         self.__validate_patches_dir(patches_dir)
         timestamp = datetime.datetime.utcnow().strftime('%Y_%m_%dT%H%M%S')
 
-        diff = self.__repo.git.diff(
-            '--staged' if only_staging_area else '',
-            '--ignore-all-space' if ignore_space_changes else ''
-        )
+        diff_options = '--staged' if only_staging_area else ''
+        if ignore_space_changes:
+            diff_options += ' --ignore-all-space'
+
+        diff = self.__repo.git.diff(diff_options)
 
         if not diff:
             raise NothingToPatchError()
