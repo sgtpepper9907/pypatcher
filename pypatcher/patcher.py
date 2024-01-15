@@ -69,7 +69,14 @@ class Patcher():
             origin_branch = origin_branch_match.groups()[0] if origin_branch_match else None
 
             if not origin_branch:
-                raise OriginBranchDetectionError()
+                #fallback to git remote
+                remote_info = self.__repo.git.remote('show', remote_name)
+                remote_branch_matches = re.findall(r'Remote branch:\s+((?:\w|\/|\.)+)', remote_info)
+
+                if not remote_branch_matches:
+                    raise OriginBranchDetectionError()
+
+                origin_branch = remote_branch_matches[0]
 
             self.__repo.git.checkout(origin_branch)
 
